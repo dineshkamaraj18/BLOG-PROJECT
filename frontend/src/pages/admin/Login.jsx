@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Lock, User, Mail, ArrowLeft, Loader2, AlertCircle, CheckCircle2, ShieldCheck } from 'lucide-react';
 import Logo from '../../components/Logo';
+import { API_BASE_URL } from '../../config/api';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Login = () => {
     const checkStatus = async () => {
       try {
         setCheckingSetup(true);
-        const res = await fetch('/api/admin/setup-status');
+        const res = await fetch(`${API_BASE_URL}/api/admin/setup-status`);
         const data = await res.json();
         if (data.success && data.isSetupRequired) {
           setIsSetupRequired(true);
@@ -56,7 +57,7 @@ const Login = () => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch('/api/admin/login', {
+      const res = await fetch(`${API_BASE_URL}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -103,7 +104,7 @@ const Login = () => {
       setLoading(true);
       setError(null);
 
-      const res = await fetch('/api/admin/setup', {
+      const res = await fetch(`${API_BASE_URL}/api/admin/setup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

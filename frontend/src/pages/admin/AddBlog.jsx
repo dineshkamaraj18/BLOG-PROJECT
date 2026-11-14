@@ -10,6 +10,7 @@ import {
   Loader2,
   Eye,
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 const AddBlog = () => {
   const { id } = useParams();
@@ -37,7 +38,7 @@ const AddBlog = () => {
   useEffect(() => {
     const fetchAuthors = async () => {
       try {
-        const res = await fetch('/api/authors');
+        const res = await fetch(`${API_BASE_URL}/api/authors`);
         const data = await res.json();
         if (data.success) setAuthors(data.authors);
       } catch (err) {
@@ -52,7 +53,7 @@ const AddBlog = () => {
       const fetchBlogToEdit = async () => {
         try {
           setFetching(true);
-          const res = await fetch(`/api/blogs/${id}`);
+          const res = await fetch(`${API_BASE_URL}/api/blogs/${id}`);
           const data = await res.json();
           if (data.success) {
             setFormData({
@@ -131,7 +132,7 @@ By staying intentional and consistent, you can master these concepts and build r
       setLoading(true);
       setFeedback(null);
 
-      const url = isEditing ? `/api/blogs/${id}` : '/api/blogs';
+      const url = isEditing ? `${API_BASE_URL}/api/blogs/${id}` : `${API_BASE_URL}/api/blogs`;
       const method = isEditing ? 'PUT' : 'POST';
 
       // Auto-set author name from selected authorId

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Sparkles, Search, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
+import { API_BASE_URL } from '../config/api';
 
 const categories = [
   'All',
@@ -48,7 +49,7 @@ const Home = () => {
       setLoading(true);
       setError(null);
 
-      let url = '/api/blogs';
+      let url = `${API_BASE_URL}/api/blogs`;
       const params = new URLSearchParams();
 
       if (category && category !== 'All') {

@@ -9,6 +9,7 @@ import {
   CheckCircle2,
   AlertCircle,
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 const Command = () => {
   const [comments, setComments] = useState([]);
@@ -22,7 +23,7 @@ const Command = () => {
   const fetchComments = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/blogs/admin/all-comments', {
+      const res = await fetch(`${API_BASE_URL}/api/blogs/admin/all-comments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -45,7 +46,7 @@ const Command = () => {
 
     try {
       setDeletingId(commentId);
-      const res = await fetch(`/api/blogs/${blogId}/comments/${commentId}`, {
+      const res = await fetch(`${API_BASE_URL}/api/blogs/${blogId}/comments/${commentId}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });

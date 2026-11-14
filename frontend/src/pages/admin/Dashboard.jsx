@@ -13,6 +13,7 @@ import {
   AlertCircle,
   CheckCircle2,
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 const Dashboard = () => {
   const [stats, setStats] = useState(null);
@@ -29,7 +30,7 @@ const Dashboard = () => {
       setLoading(true);
 
       // Fetch stats
-      const statsRes = await fetch('/api/admin/stats', {
+      const statsRes = await fetch(`${API_BASE_URL}/api/admin/stats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const statsData = await statsRes.json();
@@ -38,7 +39,7 @@ const Dashboard = () => {
       }
 
       // Fetch all blogs
-      const blogsRes = await fetch('/api/blogs');
+      const blogsRes = await fetch(`${API_BASE_URL}/api/blogs`);
       const blogsData = await blogsRes.json();
       if (blogsData.success) {
         setBlogs(blogsData.blogs);
@@ -61,7 +62,7 @@ const Dashboard = () => {
 
     try {
       setDeletingId(id);
-      const res = await fetch(`/api/blogs/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/blogs/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

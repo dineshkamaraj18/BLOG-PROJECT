@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { API_BASE_URL } from '../config/api';
 import { ArrowLeft, Calendar, MessageSquare, CheckCircle2, AlertCircle, Loader2, Heart, Globe } from 'lucide-react';
 
 const TwitterIcon = () => (
@@ -58,7 +59,7 @@ const Blog = () => {
     const fetchBlog = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/blogs/${id}`);
+        const res = await fetch(`${API_BASE_URL}/api/blogs/${id}`);
         const data = await res.json();
         if (data.success) {
           setBlog(data.blog);
@@ -87,7 +88,7 @@ const Blog = () => {
       setSubmitting(true);
       setSubmitMessage(null);
 
-      const res = await fetch(`/api/blogs/${id}/comments`, {
+      const res = await fetch(`${API_BASE_URL}/api/blogs/${id}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: name.trim(), comment: comment.trim() }),

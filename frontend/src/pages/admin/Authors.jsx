@@ -11,6 +11,7 @@ import {
   Globe,
   Save,
 } from 'lucide-react';
+import { API_BASE_URL } from '../../config/api';
 
 const TwitterIcon = () => (
   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -56,7 +57,7 @@ const Authors = () => {
   const fetchAuthors = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/authors');
+      const res = await fetch(`${API_BASE_URL}/api/authors`);
       const data = await res.json();
       if (data.success) {
         setAuthors(data.authors);
@@ -109,7 +110,7 @@ const Authors = () => {
     try {
       setSaving(true);
       setFeedback(null);
-      const url = editing ? `/api/authors/${editing}` : '/api/authors';
+      const url = editing ? `${API_BASE_URL}/api/authors/${editing}` : `${API_BASE_URL}/api/authors`;
       const method = editing ? 'PUT' : 'POST';
 
       const res = await fetch(url, {
@@ -163,7 +164,7 @@ const Authors = () => {
     if (!window.confirm('Are you sure you want to delete this author?')) return;
     try {
       setDeleting(id);
-      const res = await fetch(`/api/authors/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/authors/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
