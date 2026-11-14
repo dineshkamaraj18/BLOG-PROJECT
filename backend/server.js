@@ -25,15 +25,27 @@ app.get('/', (req, res) => {
 
 // MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/technology_blog';
+const LOCAL_URI = 'mongodb://127.0.0.1:27017/technology_blog';
 
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 5000 });
     console.log('MONGODB CONNECTED SUCCESSFULLY');
-  })
-  .catch((error) => {
-    console.error('MONGODB CONNECTION ERROR:', error);
-  });
+  } catch (error) {
+    console.warn('PRIMARY MONGODB CONNECTION FAILED:', error.message);
+    if (MONGO_URI !== LOCAL_URI) {
+      console.log('Attempting fallback to local MongoDB:', LOCAL_URI);
+      try {
+        await mongoose.connect(LOCAL_URI);
+        console.log('LOCAL MONGODB CONNECTED SUCCESSFULLY (FALLBACK)');
+      } catch (err) {
+        console.error('MONGODB CONNECTION ERROR:', err.message);
+      }
+    }
+  }
+};
+
+connectDB();
 
 const PORT = process.env.PORT || 5000;
 
